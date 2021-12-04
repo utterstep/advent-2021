@@ -1,0 +1,15 @@
+[package]
+name = "run-all"
+version = "0.1.0"
+authors = ["Vlad Stepanov <8uk.8ak@gmail.com>"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+advent-utils = { git = "https://github.com/utter-step/advent-utils" }
+
+day-01 = { path = "../day-01" }
+day-02 = { path = "../day-02" }
+day-03 = { path = "../day-03" }
+day-04 = { path = "../day-04" }

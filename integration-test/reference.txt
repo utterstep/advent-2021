@@ -1,0 +1,8 @@
+day 01: number of times depth increased is 1266
+day 01: number of times three-measurement sliding window sum increased is 1217
+day 02: product of depth and x coord is 1804520
+day 02: product of depth and x coord is 1971095320
+day 03: power consumption is 1025636
+day 03: life support rating is 793873
+day 04: first winner score is 60368
+day 04: last winner score is 17435
