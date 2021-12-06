@@ -1,7 +1,4 @@
-use std::{
-    error::Error,
-    str::FromStr,
-};
+use std::{error::Error, str::FromStr};
 
 use advent_utils::{parse_raw_data, Part, Solver};
 use rustc_hash::FxHashMap;
@@ -42,7 +39,10 @@ impl Solver for Solution {
                     }
                 }
 
-                format!("there is {} points with overlap", points.values().filter(|&&v| v > 1).count())
+                format!(
+                    "there is {} points with overlap",
+                    points.values().filter(|&&v| v > 1).count()
+                )
             }
             Part::Two => {
                 let mut points: FxHashMap<_, u32> = FxHashMap::default();
@@ -53,7 +53,10 @@ impl Solver for Solution {
                     }
                 }
 
-                format!("there is {} points with overlap", points.values().filter(|&&v| v > 1).count())
+                format!(
+                    "there is {} points with overlap",
+                    points.values().filter(|&&v| v > 1).count()
+                )
             }
         }
     }

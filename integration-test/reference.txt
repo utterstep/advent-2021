@@ -6,3 +6,7 @@ day 03: power consumption is 1025636
 day 03: life support rating is 793873
 day 04: first winner score is 60368
 day 04: last winner score is 17435
+day 05: there is 6283 points with overlap
+day 05: there is 18864 points with overlap
+day 06: population size after 80 moves is 380612
+day 06: population size after 256 moves is 1710166656900
