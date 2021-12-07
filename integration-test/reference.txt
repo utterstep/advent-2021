@@ -10,3 +10,5 @@ day 05: there is 6283 points with overlap
 day 05: there is 18864 points with overlap
 day 06: population size after 80 moves is 380612
 day 06: population size after 256 moves is 1710166656900
+day 07: min fuel usage is 335271
+day 07: min fuel usage is 95851339
