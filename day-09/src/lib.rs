@@ -12,6 +12,7 @@ impl FromStr for Solution {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut heights: Vec<Vec<u8>> = s
+            .trim_end()
             .split('\n')
             .map(|line| {
                 once(u8::MAX)
@@ -35,16 +36,12 @@ fn find_basin_size(heights: &[Vec<u8>], x: usize, y: usize) -> usize {
     let mut set = BTreeSet::new();
     set.insert((x, y));
 
-    while !to_visit_queue.is_empty() {
-        let (x, y, current) = to_visit_queue.pop().unwrap();
-
+    while let Some((x, y, current)) = to_visit_queue.pop() {
         for coord in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)] {
             let value = heights[coord.1][coord.0];
 
-            if value > current && value < 9 {
-                if set.insert(coord) {
-                    to_visit_queue.push((coord.0, coord.1, value))
-                }
+            if value > current && set.insert(coord) && value < 9 {
+                to_visit_queue.push((coord.0, coord.1, value))
             }
         }
     }
