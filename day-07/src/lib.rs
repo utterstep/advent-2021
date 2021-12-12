@@ -31,7 +31,11 @@ impl FromStr for Solution {
             }
         }
 
-        Ok(Self { crab_positions, min_pos, max_pos })
+        Ok(Self {
+            crab_positions,
+            min_pos,
+            max_pos,
+        })
     }
 }
 
@@ -47,7 +51,11 @@ impl Solver for Solution {
                 let mut min_fuel = i64::MAX;
 
                 for p in self.min_pos..=self.max_pos {
-                    let fuel = self.crab_positions.iter().map(|&pos| (pos - p).abs()).sum::<i64>();
+                    let fuel = self
+                        .crab_positions
+                        .iter()
+                        .map(|&pos| (pos - p).abs())
+                        .sum::<i64>();
 
                     if fuel < min_fuel {
                         min_fuel = fuel;
@@ -60,7 +68,11 @@ impl Solver for Solution {
                 let mut min_fuel = i64::MAX;
 
                 for p in self.min_pos..=self.max_pos {
-                    let fuel = self.crab_positions.iter().map(|&pos| sum_up_to_n((pos - p).abs())).sum::<i64>();
+                    let fuel = self
+                        .crab_positions
+                        .iter()
+                        .map(|&pos| sum_up_to_n((pos - p).abs()))
+                        .sum::<i64>();
 
                     if fuel < min_fuel {
                         min_fuel = fuel;

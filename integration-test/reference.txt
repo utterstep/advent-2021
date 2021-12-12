@@ -12,3 +12,5 @@ day 06: population size after 80 moves is 380612
 day 06: population size after 256 moves is 1710166656900
 day 07: min fuel usage is 335271
 day 07: min fuel usage is 95851339
+day 08: there are 452 easy digits
+day 08: sum of output signals is 1096964
