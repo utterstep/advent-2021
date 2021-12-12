@@ -85,21 +85,18 @@ impl Solver for Solution {
 
         match part {
             Part::One => {
-                let total_flashes = (0..N_STEPS)
-                    .map(|_| step(&mut octopuses))
-                    .sum::<usize>();
+                let total_flashes = (0..N_STEPS).map(|_| step(&mut octopuses)).sum::<usize>();
 
                 format!("there were total {} flashes", total_flashes)
-            },
+            }
             Part::Two => {
                 let total_octopuses = (octopuses.len() - 2) * (octopuses[0].len() - 2);
 
                 match (1..).find(|_| step(&mut octopuses) == total_octopuses) {
-                    Some(step_no) => format!(
-                        "all octopuses will be synchronized after {} steps",
-                        step_no
-                    ),
-                    None => "octopuses failed to synchronize :(".to_owned()
+                    Some(step_no) => {
+                        format!("all octopuses will be synchronized after {} steps", step_no)
+                    }
+                    None => "octopuses failed to synchronize :(".to_owned(),
                 }
             }
         }
@@ -117,13 +114,16 @@ mod tests {
 
     #[test]
     fn test_small_example() {
-        let solution: Solution = indoc!("
+        let solution: Solution = indoc!(
+            "
             11111
             19991
             19191
             19991
             11111"
-        ).parse().unwrap();
+        )
+        .parse()
+        .unwrap();
 
         let mut octopuses = solution.octopuses.clone();
 
@@ -133,7 +133,8 @@ mod tests {
 
     #[test]
     fn test_larger_example() {
-        let solution: Solution = indoc!("
+        let solution: Solution = indoc!(
+            "
             5483143223
             2745854711
             5264556173
@@ -144,12 +145,11 @@ mod tests {
             6882881134
             4846848554
             5283751526"
-        ).parse().unwrap();
+        )
+        .parse()
+        .unwrap();
 
-        assert_eq!(
-            solution.solve(Part::One),
-            "there were total 1656 flashes"
-        );
+        assert_eq!(solution.solve(Part::One), "there were total 1656 flashes");
 
         assert_eq!(
             solution.solve(Part::Two),
