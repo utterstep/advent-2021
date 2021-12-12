@@ -14,3 +14,5 @@ day 07: min fuel usage is 335271
 day 07: min fuel usage is 95851339
 day 08: there are 452 easy digits
 day 08: sum of output signals is 1096964
+day 09: sum of risk values is 423
+day 09: product of basin sizes is 1198704
