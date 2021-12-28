@@ -20,3 +20,5 @@ day 10: total corruptness score is 341823
 day 10: winner is 2801302861
 day 11: there were total 1749 flashes
 day 11: all octopuses will be synchronized after 285 steps
+day 12: there are 3450 paths from `start` to `end`
+day 12: there are 96528 paths from `start` to `end`, if we can visit one small cave twice
