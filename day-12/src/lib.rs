@@ -72,6 +72,9 @@ impl Solution {
             return 1;
         }
 
+        #[allow(clippy::never_loop)]
+        // the loop here allows to do early break. A bit cryptic, I agree.
+        // Will think about it later
         loop {
             if from.is_small {
                 if !visited_small.contains(&from) {
@@ -146,31 +149,25 @@ mod tests {
 
     #[test]
     fn test_examples_once() {
-        let solution: Solution = include_str!("../example-10.txt").parse().unwrap();
-
+        let solution: Solution = include_str!("../example-10-36.txt").parse().unwrap();
         assert_eq!(solution.paths(START, END, false), Some(10));
 
-        let solution: Solution = include_str!("../example-19.txt").parse().unwrap();
-
+        let solution: Solution = include_str!("../example-19-103.txt").parse().unwrap();
         assert_eq!(solution.paths(START, END, false), Some(19));
 
-        let solution: Solution = include_str!("../example-226.txt").parse().unwrap();
-
+        let solution: Solution = include_str!("../example-226-3509.txt").parse().unwrap();
         assert_eq!(solution.paths(START, END, false), Some(226));
     }
 
     #[test]
     fn test_examples_twice() {
-        let solution: Solution = include_str!("../example-10.txt").parse().unwrap();
-
+        let solution: Solution = include_str!("../example-10-36.txt").parse().unwrap();
         assert_eq!(solution.paths(START, END, true), Some(36));
 
-        let solution: Solution = include_str!("../example-19.txt").parse().unwrap();
-
+        let solution: Solution = include_str!("../example-19-103.txt").parse().unwrap();
         assert_eq!(solution.paths(START, END, true), Some(103));
 
-        let solution: Solution = include_str!("../example-226.txt").parse().unwrap();
-
+        let solution: Solution = include_str!("../example-226-3509.txt").parse().unwrap();
         assert_eq!(solution.paths(START, END, true), Some(3509));
     }
 }
