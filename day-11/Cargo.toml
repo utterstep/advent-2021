@@ -8,5 +8,10 @@ edition = "2021"
 [dependencies]
 advent-utils = { git = "https://github.com/utter-step/advent-utils" }
 
+termion = { version = "1", optional = true }
+
 [dev-dependencies]
 indoc = "1"
+
+[features]
+preview = ["termion"]

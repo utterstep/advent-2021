@@ -37,8 +37,8 @@ fn step(octopuses: &mut [Vec<u8>]) -> usize {
     let mut process_flashed = vec![];
     let mut flashed = BTreeSet::new();
 
-    for y in 1..(octopuses.len() - 1) {
-        for x in 1..(octopuses[y].len() - 1) {
+    for y in 1..octopuses.len() - 1 {
+        for x in 1..octopuses[y].len() - 1 {
             octopuses[y][x] += 1;
 
             if octopuses[y][x] > 9 {
@@ -74,6 +74,29 @@ fn step(octopuses: &mut [Vec<u8>]) -> usize {
 
     for &(x, y) in flashed.iter() {
         octopuses[y][x] = 0;
+    }
+
+    #[cfg(feature = "preview")]
+    {
+        print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 1));
+
+        for y in 1..octopuses.len() - 1 {
+            for x in 1..octopuses[y].len() - 1 {
+                if flashed.contains(&(x, y)) {
+                    print!(
+                        "{}{}{}",
+                        termion::style::Bold,
+                        octopuses[y][x],
+                        termion::style::Reset,
+                    )
+                } else {
+                    print!("{}", octopuses[y][x])
+                };
+            }
+            println!();
+        }
+
+        std::thread::sleep(std::time::Duration::from_millis(250));
     }
 
     flashed.len()
