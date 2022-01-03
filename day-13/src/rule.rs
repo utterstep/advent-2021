@@ -1,7 +1,7 @@
-use std::{num::ParseIntError, str::FromStr, collections::BTreeSet};
+use std::{collections::BTreeSet, num::ParseIntError, str::FromStr};
 
-use thiserror::Error;
 use displaydoc::Display;
+use thiserror::Error;
 
 use crate::point::Point;
 
@@ -27,22 +27,23 @@ impl FromStr for Rule {
         match s.split_once('=') {
             Some(("fold along x", num)) => Ok(Self::FoldX(num.parse()?)),
             Some(("fold along y", num)) => Ok(Self::FoldY(num.parse()?)),
-            _ => Err(ParsePointError::InvalidFormat)
+            _ => Err(ParsePointError::InvalidFormat),
         }
     }
 }
 
 impl Rule {
     pub fn perform(self, points: &BTreeSet<Point>) -> BTreeSet<Point> {
-        points.iter().map(|&point| {
-            match self {
+        points
+            .iter()
+            .map(|&point| match self {
                 Self::FoldX(x_corr) => {
                     if point.x < x_corr {
                         point
                     } else {
                         (2 * x_corr - point.x, point.y).into()
                     }
-                },
+                }
                 Self::FoldY(y_corr) => {
                     if point.y < y_corr {
                         point
@@ -50,7 +51,7 @@ impl Rule {
                         (point.x, 2 * y_corr - point.y).into()
                     }
                 }
-            }
-        }).collect()
+            })
+            .collect()
     }
 }

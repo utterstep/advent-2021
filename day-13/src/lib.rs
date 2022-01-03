@@ -31,42 +31,34 @@ impl FromStr for Solution {
 }
 
 fn format_points(points: &BTreeSet<Point>) -> Option<String> {
-    let up_right = points
-        .iter()
-        .copied()
-        .reduce(|mut up_right, point| {
-            if point.x > up_right.x {
-                up_right.x = point.x;
-            }
+    let up_right = points.iter().copied().reduce(|mut up_right, point| {
+        if point.x > up_right.x {
+            up_right.x = point.x;
+        }
 
-            if point.y > up_right.y {
-                up_right.y = point.y;
-            }
+        if point.y > up_right.y {
+            up_right.y = point.y;
+        }
 
-            up_right
-        })?;
+        up_right
+    })?;
 
-    let down_left = points
-        .iter()
-        .copied()
-        .reduce(|mut down_left, point| {
-            if point.x < down_left.x {
-                down_left.x = point.x;
-            }
+    let down_left = points.iter().copied().reduce(|mut down_left, point| {
+        if point.x < down_left.x {
+            down_left.x = point.x;
+        }
 
-            if point.y < down_left.y {
-                down_left.y = point.y;
-            }
+        if point.y < down_left.y {
+            down_left.y = point.y;
+        }
 
-            down_left
-        })?;
+        down_left
+    })?;
 
     let x_span = up_right.x - down_left.x + 1;
     let y_span = up_right.y - down_left.y + 1;
 
-    let mut canvas = vec![
-        vec![b' '; x_span as usize]; y_span as usize
-    ];
+    let mut canvas = vec![vec![b' '; x_span as usize]; y_span as usize];
 
     for point in points {
         let x = usize::try_from(point.x - down_left.x).ok()?;
@@ -92,18 +84,19 @@ impl Solver for Solution {
             Part::One => {
                 let points_after_first_fold = self.rules[0].perform(&self.points);
 
-                format!("there will be {} points visible after first folds", points_after_first_fold.len())
-            },
+                format!(
+                    "there will be {} points visible after first folds",
+                    points_after_first_fold.len()
+                )
+            }
             Part::Two => {
                 let points_result = self
                     .rules
                     .iter()
-                    .fold(self.points.clone(), |points, rule| {
-                        rule.perform(&points)
-                    });
+                    .fold(self.points.clone(), |points, rule| rule.perform(&points));
 
                 format_points(&points_result).expect("failed to format points")
-            },
+            }
         }
     }
 
