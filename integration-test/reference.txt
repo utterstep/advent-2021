@@ -30,3 +30,5 @@ day 13: ###  ###   ##  #  # #### ###  #    ###
 # #  #    #  # # #  #    #  # #    # # 
 #  # #     ##  #  # #    ###  #### #  #
 
+day 14: maxfreq - minfreq after 10 steps: 3284
+day 14: maxfreq - minfreq after 40 steps: 4302675529689
