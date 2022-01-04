@@ -148,7 +148,7 @@ mod tests {
         .parse()
         .unwrap();
 
-        let mut octopuses = solution.octopuses.clone();
+        let mut octopuses = solution.octopuses;
 
         assert_eq!(step(&mut octopuses), 9);
         assert_eq!(step(&mut octopuses), 0);
