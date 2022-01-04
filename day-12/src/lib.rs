@@ -34,7 +34,10 @@ impl FromStr for Solution {
             }
         }
 
-        Ok(Self { interner, caves_map: cave_map })
+        Ok(Self {
+            interner,
+            caves_map: cave_map,
+        })
     }
 }
 
