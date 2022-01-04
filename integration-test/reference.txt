@@ -32,3 +32,5 @@ day 13: ###  ###   ##  #  # #### ###  #    ###
 
 day 14: maxfreq - minfreq after 10 steps: 3284
 day 14: maxfreq - minfreq after 40 steps: 4302675529689
+day 15: safest path from (0, 0) to (99, 99) has total risk factor of: 741
+day 15: safest path from (0, 0) to (499, 499) has total risk factor of: 2976
