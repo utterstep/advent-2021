@@ -24,7 +24,7 @@ impl FromStr for Solution {
     type Err = Box<dyn Error>;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let (initial, rules) = s.trim().split_once("\n\n").ok_or("invalid input format")?;
+        let (initial, rules) = s.trim_end().split_once("\n\n").ok_or("invalid input format")?;
 
         let chars = initial.chars().collect::<Vec<_>>();
         let pairs_counter = chars.windows(2).map(|window| [window[0], window[1]]).fold(

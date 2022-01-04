@@ -12,8 +12,7 @@ impl FromStr for Solution {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut heights: Vec<Vec<u8>> = s
-            .trim_end()
-            .split('\n')
+            .lines()
             .map(|line| {
                 once(u8::MAX)
                     .chain(line.bytes().map(|b| b - b'0'))
