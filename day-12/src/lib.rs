@@ -6,38 +6,16 @@ use string_interner::{DefaultSymbol, StringInterner};
 
 #[derive(Debug)]
 pub struct Solution {
+    /// there are a lot of small string, resulting in trivial implementation time
+    /// being dwarfed by allocation time, so I use string interning here to get rid
+    /// of most of allocations (reduces runtime ~threefold)
     interner: StringInterner,
-    cave_map: BTreeMap<Cave, SmallVec<[Cave; 32]>>,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-struct Cave {
-    symbol: DefaultSymbol,
-    is_small: bool,
+    /// Map, containing the caves, accessible from the given cave
+    caves_map: BTreeMap<Cave, SmallVec<[Cave; 32]>>,
 }
 
 const START: &str = "start";
 const END: &str = "end";
-
-impl Cave {
-    fn from_str(s: &str, interner: &mut StringInterner) -> Self {
-        let symbol = interner.get_or_intern(s);
-
-        Self {
-            symbol,
-            is_small: s.chars().all(|c| c.is_ascii_lowercase()),
-        }
-    }
-
-    fn try_from_str(s: &str, interner: &StringInterner) -> Option<Self> {
-        let symbol = interner.get(&s)?;
-
-        Some(Self {
-            symbol,
-            is_small: s.chars().all(|c| c.is_ascii_lowercase()),
-        })
-    }
-}
 
 impl FromStr for Solution {
     type Err = Box<dyn Error>;
@@ -56,7 +34,7 @@ impl FromStr for Solution {
             }
         }
 
-        Ok(Self { interner, cave_map })
+        Ok(Self { interner, caves_map: cave_map })
     }
 }
 
@@ -93,7 +71,7 @@ impl Solution {
             break;
         }
 
-        if let Some(out_caves) = self.cave_map.get(&from) {
+        if let Some(out_caves) = self.caves_map.get(&from) {
             return out_caves
                 .iter()
                 .map(|&out_cave| self._paths(out_cave, to, visited_small.clone(), visited_twice))
@@ -140,6 +118,32 @@ impl Solver for Solution {
 
     fn day_number() -> u32 {
         12
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+struct Cave {
+    symbol: DefaultSymbol,
+    is_small: bool,
+}
+
+impl Cave {
+    fn from_str(s: &str, interner: &mut StringInterner) -> Self {
+        let symbol = interner.get_or_intern(s);
+
+        Self {
+            symbol,
+            is_small: s.chars().all(|c| c.is_ascii_lowercase()),
+        }
+    }
+
+    fn try_from_str(s: &str, interner: &StringInterner) -> Option<Self> {
+        let symbol = interner.get(&s)?;
+
+        Some(Self {
+            symbol,
+            is_small: s.chars().all(|c| c.is_ascii_lowercase()),
+        })
     }
 }
 
