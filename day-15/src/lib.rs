@@ -1,10 +1,4 @@
-use std::{
-    borrow::Cow,
-    cmp::Reverse,
-    collections::BinaryHeap,
-    error::Error,
-    str::FromStr,
-};
+use std::{borrow::Cow, cmp::Reverse, collections::BinaryHeap, error::Error, str::FromStr};
 
 use advent_utils::{Part, Solver};
 use rustc_hash::FxHashMap;
@@ -38,6 +32,14 @@ impl Solver for Solution {
     }
 }
 
+#[inline(always)]
+fn next_risk(risk: u8) -> u8 {
+    match risk {
+        9 => 1,
+        n => n + 1,
+    }
+}
+
 fn repeat_map(map: &[Vec<u8>], n_times: usize) -> Vec<Vec<u8>> {
     let resized_horizontally = map
         .iter()
@@ -49,10 +51,7 @@ fn repeat_map(map: &[Vec<u8>], n_times: usize) -> Vec<Vec<u8>> {
 
             for i in 0..n_times - 1 {
                 for j in 0..width {
-                    line.push(match line[i * width + j] {
-                        9 => 1,
-                        n => n + 1,
-                    })
+                    line.push(next_risk(line[i * width + j]));
                 }
             }
 
@@ -69,10 +68,7 @@ fn repeat_map(map: &[Vec<u8>], n_times: usize) -> Vec<Vec<u8>> {
             let mut line = new_map[i * height + j].clone();
 
             for item in line.iter_mut() {
-                *item = match *item {
-                    9 => 1,
-                    n => n + 1,
-                }
+                *item = next_risk(*item);
             }
 
             new_map.push(line);
@@ -95,9 +91,13 @@ fn a_star(from: (usize, usize), to: (usize, usize), map: &[Vec<u8>]) -> Option<u
         let width = map[y].len();
 
         [
+            // left
             x.checked_sub(1).map(|x| (x, y)),
+            // up
             y.checked_sub(1).map(|y| (x, y)),
+            // right
             (x < (width - 1)).then(|| (x + 1, y)),
+            //
             (y < (height - 1)).then(|| (x, y + 1)),
         ]
         .into_iter()
@@ -110,23 +110,32 @@ fn a_star(from: (usize, usize), to: (usize, usize), map: &[Vec<u8>]) -> Option<u
     path_prices.insert(from, 0);
     to_visit.push((Reverse(0), from));
 
+    #[cfg(debug_assertions)]
+    let mut checked_points = 0;
+
     while let Some((_cost, current)) = to_visit.pop() {
+        #[cfg(debug_assertions)]
+        {
+            checked_points += 1;
+        }
+
         if current == to {
+            #[cfg(debug_assertions)]
+            println!("checked total of {} points", checked_points);
             return path_prices.get(&current).copied();
         }
 
         for neighbour in neighbours(current, map) {
-            let neighbour_cost_from_current =
+            let neighbour_from_current =
                 *path_prices.get(&current)? + map[neighbour.1][neighbour.0] as u64;
 
             match path_prices.get(&neighbour) {
-                Some(_neighbour_cost) if *_neighbour_cost <= neighbour_cost_from_current => {}
+                Some(neighbour_cost) if *neighbour_cost <= neighbour_from_current => {}
                 _ => {
-                    path_prices.insert(neighbour, neighbour_cost_from_current);
-                    to_visit.push((
-                        Reverse(neighbour_cost_from_current + price(neighbour, to)),
-                        neighbour,
-                    ));
+                    path_prices.insert(neighbour, neighbour_from_current);
+
+                    let cost_heuristic = neighbour_from_current + price(neighbour, to);
+                    to_visit.push((Reverse(cost_heuristic), neighbour));
                 }
             }
         }
@@ -140,8 +149,7 @@ impl FromStr for Solution {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let risk_factors: Vec<Vec<u8>> = s
-            .trim_end()
-            .split('\n')
+            .lines()
             .map(|line| line.bytes().map(|b| b - b'0').collect())
             .collect();
 
