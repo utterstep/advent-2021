@@ -36,3 +36,5 @@ day 15: safest path from (0, 0) to (99, 99) has total risk factor of: 741
 day 15: safest path from (0, 0) to (499, 499) has total risk factor of: 2976
 day 16: sum of versions is 1002
 day 16: expr value is 1673210814091
+day 17: max speed is 162, max height is 13203
+day 17: there are 5644 possible initial velocities

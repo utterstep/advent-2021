@@ -35,6 +35,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     run::<day_14::Solution>()?;
     run::<day_15::Solution>()?;
     run::<day_16::Solution>()?;
+    run::<day_17::Solution>()?;
 
     Ok(())
 }
