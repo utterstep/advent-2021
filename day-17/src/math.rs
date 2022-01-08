@@ -97,6 +97,7 @@ fn compute_x_hit<R: RangeBounds<i64>>(
         return Some(usize::MAX);
     }
 
+    // FIXME: won't work for negative x values
     let res = (match boundary {
         HorizontalBoundary::Left => res.ceil(),
         HorizontalBoundary::Right => res.floor(),
