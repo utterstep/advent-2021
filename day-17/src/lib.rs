@@ -1,6 +1,7 @@
 use std::{error::Error, ops::RangeInclusive, str::FromStr};
 
 use advent_utils::{Part, Solver};
+
 use math::{compute_hit, compute_x_velocity, sum_up_to_n, HorizontalBoundary};
 
 mod math;
@@ -13,46 +14,6 @@ pub struct Solution {
 
 const PREFIX: &str = "target area: ";
 const UNKNOWN_FORMAT_ERR: &str = "unknown format";
-
-impl FromStr for Solution {
-    type Err = Box<dyn Error>;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let s = s.trim_end();
-
-        macro_rules! pattern_or_error {
-            ($val:expr, $pat:pat => $success:expr) => {
-                match $val {
-                    $pat => $success,
-                    _ => return Err(UNKNOWN_FORMAT_ERR.into()),
-                }
-            };
-        }
-
-        let coords = pattern_or_error!(&s[..PREFIX.len()], PREFIX => &s[PREFIX.len()..]);
-
-        let (x_range, y_range) = pattern_or_error!(coords.split_once(", "), Some((x, y)) => (x, y));
-
-        let x_range = pattern_or_error!(x_range.split_once('='), Some(("x", value)) => value);
-        let y_range = pattern_or_error!(y_range.split_once('='), Some(("y", value)) => value);
-
-        let (x_start, x_end) =
-            pattern_or_error!(x_range.split_once(".."), Some((x_start, x_end)) => (x_start, x_end));
-        let (y_start, y_end) =
-            pattern_or_error!(y_range.split_once(".."), Some((y_start, y_end)) => (y_start, y_end));
-
-        let x_start = x_start.parse()?;
-        let x_end = x_end.parse()?;
-
-        let y_start = y_start.parse()?;
-        let y_end = y_end.parse()?;
-
-        Ok(Self {
-            x_range: x_start..=x_end,
-            y_range: y_start..=y_end,
-        })
-    }
-}
 
 impl Solver for Solution {
     fn solve(&self, part: Part) -> String {
@@ -109,5 +70,45 @@ impl Solver for Solution {
 
     fn day_number() -> u32 {
         17
+    }
+}
+
+impl FromStr for Solution {
+    type Err = Box<dyn Error>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let s = s.trim_end();
+
+        macro_rules! pattern_or_error {
+            ($val:expr, $pat:pat => $success:expr) => {
+                match $val {
+                    $pat => $success,
+                    _ => return Err(UNKNOWN_FORMAT_ERR.into()),
+                }
+            };
+        }
+
+        let coords = pattern_or_error!(&s[..PREFIX.len()], PREFIX => &s[PREFIX.len()..]);
+
+        let (x_range, y_range) = pattern_or_error!(coords.split_once(", "), Some((x, y)) => (x, y));
+
+        let x_range = pattern_or_error!(x_range.split_once('='), Some(("x", value)) => value);
+        let y_range = pattern_or_error!(y_range.split_once('='), Some(("y", value)) => value);
+
+        let (x_start, x_end) =
+            pattern_or_error!(x_range.split_once(".."), Some((x_start, x_end)) => (x_start, x_end));
+        let (y_start, y_end) =
+            pattern_or_error!(y_range.split_once(".."), Some((y_start, y_end)) => (y_start, y_end));
+
+        let x_start = x_start.parse()?;
+        let x_end = x_end.parse()?;
+
+        let y_start = y_start.parse()?;
+        let y_end = y_end.parse()?;
+
+        Ok(Self {
+            x_range: x_start..=x_end,
+            y_range: y_start..=y_end,
+        })
     }
 }
