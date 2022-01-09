@@ -38,3 +38,5 @@ day 16: sum of versions is 1002
 day 16: expr value is 1673210814091
 day 17: max speed is 162, max height is 13203
 day 17: there are 5644 possible initial velocities
+day 18: resulting number is [[[[6,6],[6,6]],[[0,6],[7,7]]],[[[7,7],[7,8]],[[8,9],[8,8]]]], it's magnitude is 3884
+day 18: max two-numbers sum magnitude is 4595
