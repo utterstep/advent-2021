@@ -23,7 +23,8 @@ impl Solver for Solution {
                     .numbers
                     .iter()
                     .map(|s| s.parse())
-                    .collect::<Result<Vec<_>, _>>().expect("failed to parse number");
+                    .collect::<Result<Vec<_>, _>>()
+                    .expect("failed to parse number");
 
                 let res = sum(&mut numbers).expect("no items to compute sum");
 
@@ -45,17 +46,22 @@ impl Solver for Solution {
                         let sum_magnitude = sum_node.magnitude();
 
                         match max_magnitude {
-                            None => { max_magnitude.replace(sum_magnitude); }
+                            None => {
+                                max_magnitude.replace(sum_magnitude);
+                            }
                             Some(magnitude) if magnitude < sum_magnitude => {
                                 max_magnitude.replace(sum_magnitude);
-                            },
+                            }
                             _ => {}
                         }
                     }
                 }
 
-                format!("max two-numbers sum magnitude is {}", max_magnitude.unwrap())
-            },
+                format!(
+                    "max two-numbers sum magnitude is {}",
+                    max_magnitude.unwrap()
+                )
+            }
         }
     }
 

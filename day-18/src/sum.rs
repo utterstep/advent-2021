@@ -19,12 +19,7 @@ mod tests {
 
     #[test]
     fn test_sum() {
-        let mut nodes = [
-            node!(1, 1),
-            node!(2, 2),
-            node!(3, 3),
-            node!(4, 4),
-        ];
+        let mut nodes = [node!(1, 1), node!(2, 2), node!(3, 3), node!(4, 4)];
 
         assert_eq!(
             format!("{}", sum(&mut nodes).unwrap()),
@@ -32,12 +27,12 @@ mod tests {
         );
 
         let mut nodes = [
-            node![1,1],
-            node![2,2],
-            node![3,3],
-            node![4,4],
-            node![5,5],
-            node![6,6],
+            node![1, 1],
+            node![2, 2],
+            node![3, 3],
+            node![4, 4],
+            node![5, 5],
+            node![6, 6],
         ];
 
         assert_eq!(

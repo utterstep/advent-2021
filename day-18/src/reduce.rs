@@ -1,4 +1,7 @@
-use crate::{node::Node, visitors::{ExplodeVisitor, SplitVisitor}};
+use crate::{
+    node::Node,
+    visitors::{ExplodeVisitor, SplitVisitor},
+};
 
 pub fn reduce(node: &Node) {
     while ExplodeVisitor::explode(node) || SplitVisitor::split(node) {}

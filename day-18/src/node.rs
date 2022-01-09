@@ -94,6 +94,7 @@ impl Node {
                 if let Some(parent_node) = &self.0.borrow().parent {
                     parent_node
                         .node()
+                        .expect("invalid weak ref")
                         .add_literal_left_up(inc, parent_node.side);
                 }
             }
@@ -125,6 +126,7 @@ impl Node {
                 if let Some(parent_node) = &self.0.borrow().parent {
                     parent_node
                         .node()
+                        .expect("invalid weak ref")
                         .add_literal_right_up(inc, parent_node.side);
                 }
             }
@@ -158,7 +160,7 @@ impl Node {
         match side {
             NodeSide::Left => {
                 (*self_borrow_mut).left = child;
-            },
+            }
             NodeSide::Right => {
                 (*self_borrow_mut).right = child;
             }
@@ -175,22 +177,14 @@ impl Node {
     }
 
     pub(crate) fn explode(&mut self) -> Option<Node> {
-        let left_value = self
-            .0
-            .borrow()
-            .left
-            .value()?;
+        let left_value = self.0.borrow().left.value()?;
 
-        let right_value = self
-            .0
-            .borrow()
-            .right
-            .value()?;
+        let right_value = self.0.borrow().right.value()?;
 
         let self_borrow = &self.0.borrow_mut();
         let parent_node = self_borrow.parent.as_ref()?;
 
-        let mut node = parent_node.node();
+        let mut node = parent_node.node()?;
 
         node.add_literal_left_up(left_value, parent_node.side);
         node.add_literal_right_up(right_value, parent_node.side);
@@ -223,26 +217,17 @@ impl Node {
 #[cfg(test)]
 macro_rules! node {
     ($left: literal, $right: literal) => {{
-        let node = Node::new(
-            NodeValue::Literal($left),
-            NodeValue::Literal($right),
-        );
+        let node = Node::new(NodeValue::Literal($left), NodeValue::Literal($right));
 
         node
     }};
     ($left: expr, $right: literal) => {{
-        let new = Node::new(
-            NodeValue::Node($left),
-            NodeValue::Literal($right),
-        );
+        let new = Node::new(NodeValue::Node($left), NodeValue::Literal($right));
 
         new
     }};
     ($left: literal, $right: expr) => {{
-        let new = Node::new(
-            NodeValue::Literal($left),
-            NodeValue::Node($right),
-        );
+        let new = Node::new(NodeValue::Literal($left), NodeValue::Node($right));
 
         new
     }};
@@ -263,13 +248,8 @@ pub struct ParentNode {
 }
 
 impl ParentNode {
-    fn node(&self) -> Node {
-        Node(
-            self.node
-                .0
-                .upgrade()
-                .expect("trying to get deallocated parent"),
-        )
+    fn node(&self) -> Option<Node> {
+        Some(Node(self.node.0.upgrade()?))
     }
 }
 
@@ -347,30 +327,21 @@ mod tests {
 
         macro_rules! node {
             ($left: literal, $right: literal) => {{
-                let new = Node::new(
-                    NodeValue::Literal($left),
-                    NodeValue::Literal($right),
-                );
+                let new = Node::new(NodeValue::Literal($left), NodeValue::Literal($right));
 
                 nodes.push(new.clone());
 
                 new
             }};
             ($left: expr, $right: literal) => {{
-                let new = Node::new(
-                    NodeValue::Node($left),
-                    NodeValue::Literal($right),
-                );
+                let new = Node::new(NodeValue::Node($left), NodeValue::Literal($right));
 
                 nodes.push(new.clone());
 
                 new
             }};
             ($left: literal, $right: expr) => {{
-                let new = Node::new(
-                    NodeValue::Literal($left),
-                    NodeValue::Node($right),
-                );
+                let new = Node::new(NodeValue::Literal($left), NodeValue::Node($right));
 
                 nodes.push(new.clone());
 
@@ -420,30 +391,21 @@ mod tests {
 
         macro_rules! node {
             ($left: literal, $right: literal) => {{
-                let node = Node::new(
-                    NodeValue::Literal($left),
-                    NodeValue::Literal($right),
-                );
+                let node = Node::new(NodeValue::Literal($left), NodeValue::Literal($right));
 
                 nodes.push(node.clone());
 
                 node
             }};
             ($left: expr, $right: literal) => {{
-                let new = Node::new(
-                    NodeValue::Node($left),
-                    NodeValue::Literal($right),
-                );
+                let new = Node::new(NodeValue::Node($left), NodeValue::Literal($right));
 
                 nodes.push(new.clone());
 
                 new
             }};
             ($left: literal, $right: expr) => {{
-                let new = Node::new(
-                    NodeValue::Literal($left),
-                    NodeValue::Node($right),
-                );
+                let new = Node::new(NodeValue::Literal($left), NodeValue::Node($right));
 
                 nodes.push(new.clone());
 
