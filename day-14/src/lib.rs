@@ -92,8 +92,7 @@ impl Solution {
 
         let mut char_counter = old_pairs
             .into_iter()
-            .map(|(pair, count)| [(pair[0], count), (pair[1], count)])
-            .flatten()
+            .flat_map(|(pair, count)| [(pair[0], count), (pair[1], count)])
             .fold(FxHashMap::default(), |mut map, (char, count)| {
                 *map.entry(char).or_default() += count;
 
