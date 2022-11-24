@@ -71,7 +71,7 @@ impl FromStr for Packet {
     }
 }
 
-type Bits = BitSlice<Msb0, ContainerType>;
+type Bits = BitSlice<ContainerType, Msb0>;
 type ParseResult<'a, T> = Result<(T, &'a Bits), ParsePacketError>;
 
 fn parse_packet(value: &Bits) -> ParseResult<Packet> {

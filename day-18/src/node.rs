@@ -60,12 +60,8 @@ impl Node {
             right,
         })));
 
-        (*this.0.borrow_mut())
-            .left
-            .set_parent(&this, NodeSide::Left);
-        (*this.0.borrow_mut())
-            .right
-            .set_parent(&this, NodeSide::Right);
+        this.0.borrow_mut().left.set_parent(&this, NodeSide::Left);
+        this.0.borrow_mut().right.set_parent(&this, NodeSide::Right);
 
         this
     }
@@ -159,10 +155,10 @@ impl Node {
 
         match side {
             NodeSide::Left => {
-                (*self_borrow_mut).left = child;
+                self_borrow_mut.left = child;
             }
             NodeSide::Right => {
-                (*self_borrow_mut).right = child;
+                self_borrow_mut.right = child;
             }
         }
     }

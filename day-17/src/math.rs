@@ -64,7 +64,7 @@ pub fn compute_hit<R1: RangeBounds<i64> + Clone, R2: RangeBounds<i64> + Clone>(
     let min_y_step = y_step_top.min(y_step_bottom);
     let max_y_step = y_step_top.max(y_step_bottom);
 
-    (min_y_step <= max_x_step && max_y_step >= min_x_step).then(|| ())
+    (min_y_step <= max_x_step && max_y_step >= min_x_step).then_some(())
 }
 
 #[derive(Debug)]
@@ -103,17 +103,13 @@ fn compute_x_hit<R: RangeBounds<i64>>(
         HorizontalBoundary::Right => res.floor(),
     }) as usize;
 
-    if res > initial_velocity.abs() as usize {
+    if res > initial_velocity.unsigned_abs() as usize {
         return None;
     }
 
-    if target_range
+    target_range
         .contains(&(sum_up_to_n(initial_velocity) - sum_up_to_n(initial_velocity - res as i64)))
-    {
-        Some(res)
-    } else {
-        None
-    }
+        .then_some(res)
 }
 
 #[derive(Debug)]
@@ -163,11 +159,9 @@ fn compute_y_hit<R: RangeBounds<i64>>(
 
     let res = res as usize;
 
-    if target_range.contains(&y_position(initial_velocity, res)) {
-        Some(res)
-    } else {
-        None
-    }
+    target_range
+        .contains(&y_position(initial_velocity, res))
+        .then_some(res)
 }
 
 pub fn compute_x_velocity<R: RangeBounds<i64>>(
@@ -209,11 +203,9 @@ pub fn compute_x_velocity<R: RangeBounds<i64>>(
     }) as i64
         * target_x.signum();
 
-    if target_range.contains(&sum_up_to_n(candidate)) {
-        Some(candidate)
-    } else {
-        None
-    }
+    target_range
+        .contains(&sum_up_to_n(candidate))
+        .then_some(candidate)
 }
 
 #[cfg(test)]

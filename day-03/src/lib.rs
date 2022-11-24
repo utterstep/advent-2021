@@ -92,10 +92,7 @@ impl Solver for Solution {
                             o2.push(b'1');
                         }
 
-                        o2_reports = o2_reports
-                            .into_iter()
-                            .filter(|&s| s.starts_with(&o2))
-                            .collect();
+                        o2_reports.retain(|&s| s.starts_with(&o2));
                     }
 
                     if co2_reports.len() > 1 {
@@ -114,10 +111,7 @@ impl Solver for Solution {
                             co2.push(b'0');
                         }
 
-                        co2_reports = co2_reports
-                            .into_iter()
-                            .filter(|&s| s.starts_with(&co2))
-                            .collect();
+                        co2_reports.retain(|&s| s.starts_with(&co2));
                     }
                 }
 

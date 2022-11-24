@@ -10,5 +10,4 @@ advent-utils = { git = "https://github.com/utter-step/advent-utils" }
 
 thiserror = "1"
 displaydoc = "0.2"
-
-bitvec = "0.22"
+bitvec = "1"

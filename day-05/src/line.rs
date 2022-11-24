@@ -3,7 +3,7 @@ use std::{num::ParseIntError, str::FromStr};
 use displaydoc::Display;
 use thiserror::Error;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct LineSegment {
     start: (i32, i32),
     end: (i32, i32),

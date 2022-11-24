@@ -96,9 +96,9 @@ fn a_star(from: (usize, usize), to: (usize, usize), map: &[Vec<u8>]) -> Option<u
             // up
             y.checked_sub(1).map(|y| (x, y)),
             // right
-            (x < (width - 1)).then(|| (x + 1, y)),
+            (x < (width - 1)).then_some((x + 1, y)),
             //
-            (y < (height - 1)).then(|| (x, y + 1)),
+            (y < (height - 1)).then_some((x, y + 1)),
         ]
         .into_iter()
         .flatten()

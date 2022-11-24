@@ -89,7 +89,7 @@ impl Solution {
         let to_cave = Cave::try_from_str(to, &self.interner)?;
 
         // hack to avoid creating one more function argument
-        let visited_twice = (!allow_twice).then(|| to_cave);
+        let visited_twice = (!allow_twice).then_some(to_cave);
 
         Some(self._paths(
             from_cave,

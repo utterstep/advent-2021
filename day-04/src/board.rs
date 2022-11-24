@@ -62,7 +62,7 @@ impl Board {
         self.numbers
             .iter()
             .enumerate()
-            .filter_map(|(i, n)| (!self.marked[i]).then(|| *n))
+            .filter_map(|(i, n)| (!self.marked[i]).then_some(*n))
             .sum()
     }
 }
